@@ -21,19 +21,26 @@ class ResultList extends Component {
         return result.wordCount + result.size + result.title
     }
 
+    _handleItemClick = (e) => {
+        e.target.classList.toggle('isOpen');
+    }
+
     render() {
         const {items} = this.props;
 
         if (!items.length) return null;
 
         return (
-            <Container style={{maxWidth: 700}}>
+            <Container style={{maxWidth: 500}}>
                 <Panel>
                     <PanelHeading>
                         Results
                     </PanelHeading>
                     {items.map(item => (
-                        <PanelBlock key={this._getRelativelyUniqueId(item)}>
+                        <PanelBlock
+                            onClick={this._handleItemClick}
+                            className="ResultList__Item"
+                            key={this._getRelativelyUniqueId(item)}>
                             {item.title}
                         </PanelBlock>
                     ))}
