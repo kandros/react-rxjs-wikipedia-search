@@ -35,7 +35,8 @@ const Hero = () => (
                             Documentation
                         </NavItem>
                         <NavItem>
-                            <a href="http://google.it" target="_blank" style={{textDecoration: 'none'}}>
+                            <a href="https://github.com/kandros/react-rxjs-wikipedia-search"
+                               target="_blank" style={{textDecoration: 'none'}}>
                                 <Button states="isInverted" icon="fa fa-github">Github</Button>
                             </a>
                         </NavItem>
