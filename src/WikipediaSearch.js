@@ -17,7 +17,7 @@ type State = {
 type Props = {}
 
 class WikipediaSearch extends Component {
-    search$: Subject
+    search$: Subject<*>
 
     state: State = {
         alreadyTouched: false,
@@ -25,7 +25,6 @@ class WikipediaSearch extends Component {
         results: [],
         fetching: false
     }
-    props: Props
 
     constructor() {
         super()
@@ -42,7 +41,7 @@ class WikipediaSearch extends Component {
         this.setState({results})
     }
 
-    _searchWikipedia = (query: string): Observable => {
+    _searchWikipedia = (query: string): Observable<*> => {
         const url = BASE_URL + query
 
         if (!query) return Observable.of([])
