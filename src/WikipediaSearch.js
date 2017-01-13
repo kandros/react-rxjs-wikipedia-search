@@ -47,8 +47,16 @@ class WikipediaSearch extends Component {
 
         if (!query) return Observable.of([])
 
+        this.setState({fetching: true})
+
+        const searchResult = axios.get(url)
+            .then(res => {
+                this.setState({fetching: false})
+                return res
+            });
+
         return Observable
-            .fromPromise(axios.get(url))
+            .fromPromise(searchResult)
             .map(results => results.data.query.search)
     }
 
@@ -80,7 +88,7 @@ class WikipediaSearch extends Component {
     }
 
     render() {
-        const {results, alreadyTouched, text} = this.state
+        const {results, alreadyTouched, text, fetching} = this.state
         const noResults = alreadyTouched && results.length === 0 && text.length !== 0
 
         return (
@@ -93,7 +101,7 @@ class WikipediaSearch extends Component {
                     type="text" onChange={this._handleChange}/>
                 {/*// </label>*/}
 
-                {noResults && (
+                {noResults && !fetching && (
                     <div style={{
                             padding: 30
                         }}
