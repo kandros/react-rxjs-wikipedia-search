@@ -1,3 +1,4 @@
+// @flow
 import React, {Component, PropTypes} from 'react';
 import {
     Panel,
@@ -7,11 +8,14 @@ import {
     Button,
     Container
 } from 're-bulma';
+import type {ResultItem} from './WikipediaSearch';
+
+type Props = {
+    items: ResultItem[]
+}
 
 class ResultList extends Component {
-    static propTypes = {
-        items: PropTypes.arrayOf(PropTypes.object).isRequired
-    }
+    props: Props
 
     _getRelativelyUniqueId = (result: ResultItem) => {
         return result.wordCount + result.size + result.title

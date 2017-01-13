@@ -5,9 +5,9 @@ import ResultList from './ResultList';
 import {Subject, Observable} from 'rxjs'
 const BASE_URL = 'https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&list=search&srsearch='
 type InputEvent = {target: HTMLInputElement} & Event
-type ResultItem = {title: string, size: number, wordCount: number}
 import {Button} from 're-bulma';
 
+export type ResultItem = {title: string, size: number, wordCount: number}
 type State = {
     alreadyTouched: boolean,
     text: string,
