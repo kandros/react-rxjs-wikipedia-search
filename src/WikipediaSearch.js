@@ -1,12 +1,12 @@
 // @flow
 import React, {Component, PropTypes} from 'react'
 import axios from 'axios'
-
-const BASE_URL = 'https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&list=search&srsearch='
+import ResultList from './ResultList';
 import {Subject, Observable} from 'rxjs'
-
+const BASE_URL = 'https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&list=search&srsearch='
 type InputEvent = {target: HTMLInputElement} & Event
 type ResultItem = {title: string, size: number, wordCount: number}
+import {Button} from 're-bulma';
 
 type State = {
     alreadyTouched: boolean,
@@ -83,10 +83,6 @@ class WikipediaSearch extends Component {
         this.search$.next(nextText)
     }
 
-    _getRelativelyUniqueId = (result: ResultItem) => {
-        return result.wordCount + result.size + result.title
-    }
-
     render() {
         const {results, alreadyTouched, text, fetching} = this.state
         const noResults = alreadyTouched && results.length === 0 && text.length > 2
@@ -95,10 +91,12 @@ class WikipediaSearch extends Component {
             <div className="searchbox-wrapper">
                 {/*<label>*/}
                 {/*Search on Wikipedia*/}
-                <input
-                    className="search-input"
-                    value={text}
-                    type="text" onChange={this._handleChange}/>
+                <div style={{marginBottom: 30}}>
+                    <input
+                        className="search-input"
+                        value={text}
+                        type="text" onChange={this._handleChange}/>
+                </div>
                 {/*// </label>*/}
 
 
@@ -109,14 +107,14 @@ class WikipediaSearch extends Component {
                     >No results found :(</div>
                 )}
 
-                <ul>
-                    {fetching && <li>... fetching</li>}
-                    {results.map((result) => (
-                        <li key={this._getRelativelyUniqueId(result)}>
-                            {result.title}
-                        </li>
-                    ))}
-                </ul>
+                {fetching && (
+                    <div>
+                        <Button state="isLoading">Loading</Button>
+                    </div>
+                )}
+
+                <ResultList items={results}/>
+
             </div>
         )
     }
