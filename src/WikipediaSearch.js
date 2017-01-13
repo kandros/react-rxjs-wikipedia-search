@@ -89,7 +89,7 @@ class WikipediaSearch extends Component {
 
     render() {
         const {results, alreadyTouched, text, fetching} = this.state
-        const noResults = alreadyTouched && results.length === 0 && text.length !== 0
+        const noResults = alreadyTouched && results.length === 0 && text.length > 2
 
         return (
             <div className="searchbox-wrapper">
@@ -101,6 +101,7 @@ class WikipediaSearch extends Component {
                     type="text" onChange={this._handleChange}/>
                 {/*// </label>*/}
 
+
                 {noResults && !fetching && (
                     <div style={{
                             padding: 30
@@ -109,6 +110,7 @@ class WikipediaSearch extends Component {
                 )}
 
                 <ul>
+                    {fetching && <li>... fetching</li>}
                     {results.map((result) => (
                         <li key={this._getRelativelyUniqueId(result)}>
                             {result.title}
