@@ -11,7 +11,8 @@ type ResultItem = {title: string, size: number, wordCount: number}
 type State = {
     alreadyTouched: boolean,
     text: string,
-    results: ResultItem[]
+    results: ResultItem[],
+    fetching: boolean
 }
 type Props = {}
 
@@ -21,7 +22,8 @@ class WikipediaSearch extends Component {
     state: State = {
         alreadyTouched: false,
         text: '',
-        results: []
+        results: [],
+        fetching: false
     }
     props: Props
 
@@ -32,7 +34,6 @@ class WikipediaSearch extends Component {
         this.search$
             .debounceTime(200)
             .distinctUntilChanged()
-            .filter(Boolean)
             .switchMap(this._searchWikipedia)
             .subscribe(this._setResults)
     }
@@ -43,6 +44,9 @@ class WikipediaSearch extends Component {
 
     _searchWikipedia = (query: string): Observable => {
         const url = BASE_URL + query
+
+        if (!query) return Observable.of([])
+
         return Observable
             .fromPromise(axios.get(url))
             .map(results => results.data.query.search)
@@ -77,7 +81,7 @@ class WikipediaSearch extends Component {
 
     render() {
         const {results, alreadyTouched, text} = this.state
-        const noResults = alreadyTouched && results.length === 0 && text.length === 0
+        const noResults = alreadyTouched && results.length === 0 && text.length !== 0
 
         return (
             <div className="searchbox-wrapper">
