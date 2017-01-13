@@ -8,18 +8,22 @@ import {Subject, Observable} from 'rxjs'
 type InputEvent = {target: HTMLInputElement} & Event
 type ResultItem = {title: string, size: number, wordCount: number}
 
+type State = {
+    alreadyTouched: boolean,
+    text: string,
+    results: ResultItem[]
+}
+type Props = {}
+
 class WikipediaSearch extends Component {
     search$: Subject
-    state: {
-        firstChange: boolean,
-        text: string,
-        results: ResultItem[]
-    }
-    state = {
-        firstChange: false,
+
+    state: State = {
+        alreadyTouched: false,
         text: '',
         results: []
     }
+    props: Props
 
     constructor() {
         super()
@@ -28,6 +32,7 @@ class WikipediaSearch extends Component {
         this.search$
             .debounceTime(200)
             .distinctUntilChanged()
+            .filter(Boolean)
             .switchMap(this._searchWikipedia)
             .subscribe(this._setResults)
     }
@@ -46,8 +51,8 @@ class WikipediaSearch extends Component {
     _handleChange = (e: InputEvent) => {
         const query = e.target.value
 
-        if (!this.state.firstChange) {
-            this.setState({firstChange: true})
+        if (!this.state.alreadyTouched) {
+            this.setState({alreadyTouched: true})
         }
 
         this.setState({
@@ -55,13 +60,14 @@ class WikipediaSearch extends Component {
         })
     }
 
-    componentWillUpdate(_nextProps, nextState) {
+    componentWillUpdate(_nextProps: Props, nextState: State) {
+
         if (this.state.text !== nextState.text) {
             this._handleTextChange(nextState.text)
         }
     }
 
-    _handleTextChange(nextText) {
+    _handleTextChange(nextText: string) {
         this.search$.next(nextText)
     }
 
@@ -70,8 +76,8 @@ class WikipediaSearch extends Component {
     }
 
     render() {
-        const {results, firstChange, text} = this.state
-        const noResults = firstChange && results.length === 0 && text.length === 0
+        const {results, alreadyTouched, text} = this.state
+        const noResults = alreadyTouched && results.length === 0 && text.length === 0
 
         return (
             <div className="searchbox-wrapper">
