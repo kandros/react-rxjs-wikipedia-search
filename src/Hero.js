@@ -46,7 +46,14 @@ const Hero = () => (
                 <Title style={{fontSize: 80}}>Wikipedia Search</Title>
                 <Subtitle style={{
                     fontSize: 26
-                }}>Built with RxJs, React and re-bulma</Subtitle>
+                }}>
+                    Built with
+                    <span style={{color: '#f0008f'}}> RxJs</span>
+                    ,
+                    <span style={{color: '#61dafb'}}> React </span>
+                    and
+                    <span style={{color: '#00d1b2'}}> re-bulma </span>
+                </Subtitle>
             </Container>
         </HeroBody>
     </BulmaHero>
