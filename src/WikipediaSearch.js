@@ -1,12 +1,15 @@
 // @flow
-import React, {Component, PropTypes} from 'react';
-import axios from 'axios';
+import React, {Component, PropTypes} from 'react'
+import axios from 'axios'
 
-const BASE_URL = 'https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&list=search&srsearch=';
-import {Subject, Observable} from 'rxjs';
+const BASE_URL = 'https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&list=search&srsearch='
+import {Subject, Observable} from 'rxjs'
+
+type InputEvent = {target: HTMLInputElement} & Event
+type ResultItem = {title: string, size: number, wordCount: number}
 
 class WikipediaSearch extends Component {
-    search$: Subject;
+    search$: Subject
     state: {
         results: Object[]
     }
@@ -15,7 +18,7 @@ class WikipediaSearch extends Component {
     }
 
     constructor() {
-        super();
+        super()
         this.search$ = new Subject()
 
         this.search$
@@ -25,27 +28,31 @@ class WikipediaSearch extends Component {
             .subscribe(this._setResults)
     }
 
-    _setResults = (results: Array<Object>) => {
+    _setResults = (results: Array<ResultItem>) => {
         console.log(results)
         this.setState({results})
     }
 
-    _searchWikipedia = (query: string): Observable<String> => {
+    _searchWikipedia = (query: string): Observable => {
         const url = BASE_URL + query
         return Observable
             .fromPromise(axios.get(url))
             .map(results => results.data.query.search)
     }
 
-    _handleChange = (e: any) => {
-        const query = e.target.value;
+    _handleChange = (e: InputEvent) => {
+        const query = e.target.value
         if (query) {
             this.search$.next(query)
         }
     }
 
+    _getRelativelyUniqueId = (result: ResultItem) => {
+        return result.wordCount + result.size + result.title
+    }
+
     render() {
-        const {results} = this.state;
+        const {results} = this.state
         return (
             <div>
                 <label>
@@ -54,15 +61,15 @@ class WikipediaSearch extends Component {
                 </label>
 
                 <ul>
-                    {results.map((result, index) => (
-                        <li key={index}>
+                    {results.map((result) => (
+                        <li key={this._getRelativelyUniqueId(result)}>
                             {result.title}
                         </li>
                     ))}
                 </ul>
             </div>
-        );
+        )
     }
 }
 
-export default WikipediaSearch;
+export default WikipediaSearch
