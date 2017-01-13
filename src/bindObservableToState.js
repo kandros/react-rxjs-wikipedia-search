@@ -1,8 +1,9 @@
 import React, {Component, PropTypes} from 'react'
+import hoistNonReactStatics from 'hoist-non-react-statics'
 
 export default function (options) {
     return function (Wrapped) {
-        return class Wrapper extends Component {
+        class Wrapper extends Component {
             constructor() {
                 super()
             }
@@ -15,6 +16,8 @@ export default function (options) {
                 )
             }
         }
+
+        return hoistNonReactStatics(Wrapper, Wrapped)
     }
 }
 
