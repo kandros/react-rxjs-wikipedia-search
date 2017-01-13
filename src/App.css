@@ -50,7 +50,7 @@
             background-color    0.5s        0s,
             height			    1.0s		0s,
             margin  		    1.0s		0s,
-            box-shadow  	    2s	    	0s;
+            box-shadow  	    1.5s       	0s;
 }
 .ResultList__Item.isOpen {
     background-color: #f5f7fa;

@@ -1,5 +1,5 @@
 // @flow
-import React, {Component, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react'
 import {
     Panel,
     PanelHeading,
@@ -7,8 +7,8 @@ import {
     PanelBlock,
     Button,
     Container
-} from 're-bulma';
-import type {ResultItem} from './WikipediaSearch';
+} from 're-bulma'
+import type {ResultItem} from './WikipediaSearch'
 
 type Props = {
     items: ResultItem[]
@@ -22,13 +22,17 @@ class ResultList extends Component {
     }
 
     _handleItemClick = (e) => {
-        e.target.classList.toggle('isOpen');
+        Array.from(document.querySelectorAll('.ResultList__Item'))
+            .forEach(e => {
+                e.classList.remove('isOpen')
+            })
+        e.target.classList.add('isOpen')
     }
 
     render() {
-        const {items} = this.props;
+        const {items} = this.props
 
-        if (!items.length) return null;
+        if (!items.length) return null
 
         return (
             <Container style={{maxWidth: 500}}>
@@ -46,8 +50,8 @@ class ResultList extends Component {
                     ))}
                 </Panel>
             </Container>
-        );
+        )
     }
 }
 
-export default ResultList;
+export default ResultList
