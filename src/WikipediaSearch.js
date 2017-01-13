@@ -11,7 +11,7 @@ type ResultItem = {title: string, size: number, wordCount: number}
 class WikipediaSearch extends Component {
     search$: Subject
     state: {
-        results: Object[]
+        results: ResultItem[]
     }
     state = {
         results: []
