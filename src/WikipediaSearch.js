@@ -54,11 +54,13 @@ class WikipediaSearch extends Component {
     render() {
         const {results} = this.state
         return (
-            <div>
-                <label>
-                    Search on Wikipedia
-                    <input type="text" onChange={this._handleChange}/>
-                </label>
+            <div className="searchbox-wrapper">
+                {/*<label>*/}
+                    {/*Search on Wikipedia*/}
+                    <input
+                        className="search-input"
+                        type="text" onChange={this._handleChange}/>
+                {/*// </label>*/}
 
                 <ul>
                     {results.map((result) => (
