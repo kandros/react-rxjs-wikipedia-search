@@ -11,9 +11,13 @@ type ResultItem = {title: string, size: number, wordCount: number}
 class WikipediaSearch extends Component {
     search$: Subject
     state: {
+        firstChange: boolean,
+        query: string
         results: ResultItem[]
     }
     state = {
+        firstChange: false,
+        query: '',
         results: []
     }
 
@@ -29,7 +33,6 @@ class WikipediaSearch extends Component {
     }
 
     _setResults = (results: Array<ResultItem>) => {
-        console.log(results)
         this.setState({results})
     }
 
@@ -42,9 +45,21 @@ class WikipediaSearch extends Component {
 
     _handleChange = (e: InputEvent) => {
         const query = e.target.value
-        if (query) {
-            this.search$.next(query)
+
+        if (!this.state.firstChange) {
+            this.setState({firstChange: true})
         }
+
+        if (query) {
+            this.setState(
+                {query},
+                this._textChanged
+            )
+        }
+    }
+
+    _textChanged = ({query}) => {
+        this.search$.next(query)
     }
 
     _getRelativelyUniqueId = (result: ResultItem) => {
@@ -52,15 +67,25 @@ class WikipediaSearch extends Component {
     }
 
     render() {
-        const {results} = this.state
+        const {results, firstChange, text} = this.state
+        const noResults = !firstChange && results.length === 0 && text.length === 0
+
         return (
             <div className="searchbox-wrapper">
                 {/*<label>*/}
-                    {/*Search on Wikipedia*/}
-                    <input
-                        className="search-input"
-                        type="text" onChange={this._handleChange}/>
+                {/*Search on Wikipedia*/}
+                <input
+                    className="search-input"
+                    value={text}
+                    type="text" onChange={this._handleChange}/>
                 {/*// </label>*/}
+
+                {noResults && (
+                    <div style={{
+                            padding: 30
+                        }}
+                    >No results found :(</div>
+                )}
 
                 <ul>
                     {results.map((result) => (
