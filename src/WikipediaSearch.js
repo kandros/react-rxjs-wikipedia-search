@@ -12,12 +12,12 @@ class WikipediaSearch extends Component {
     search$: Subject
     state: {
         firstChange: boolean,
-        query: string
+        text: string,
         results: ResultItem[]
     }
     state = {
         firstChange: false,
-        query: '',
+        text: '',
         results: []
     }
 
@@ -50,16 +50,19 @@ class WikipediaSearch extends Component {
             this.setState({firstChange: true})
         }
 
-        if (query) {
-            this.setState(
-                {query},
-                this._textChanged
-            )
+        this.setState({
+            text: query
+        })
+    }
+
+    componentWillUpdate(_nextProps, nextState) {
+        if (this.state.text !== nextState.text) {
+            this._handleTextChange(nextState.text)
         }
     }
 
-    _textChanged = ({query}) => {
-        this.search$.next(query)
+    _handleTextChange(nextText) {
+        this.search$.next(nextText)
     }
 
     _getRelativelyUniqueId = (result: ResultItem) => {
@@ -68,7 +71,7 @@ class WikipediaSearch extends Component {
 
     render() {
         const {results, firstChange, text} = this.state
-        const noResults = !firstChange && results.length === 0 && text.length === 0
+        const noResults = firstChange && results.length === 0 && text.length === 0
 
         return (
             <div className="searchbox-wrapper">
