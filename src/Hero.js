@@ -35,7 +35,9 @@ const Hero = () => (
                             Documentation
                         </NavItem>
                         <NavItem>
-                            <Button states="isInverted" icon="fa fa-github">Github</Button>
+                            <a href="http://google.it" target="_blank" style={{textDecoration: 'none'}}>
+                                <Button states="isInverted" icon="fa fa-github">Github</Button>
+                            </a>
                         </NavItem>
                     </NavGroup>
                 </Container>
