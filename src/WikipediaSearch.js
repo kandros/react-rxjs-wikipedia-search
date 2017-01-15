@@ -1,5 +1,5 @@
 // @flow
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import axios from 'axios'
 import ResultList from './ResultList';
 import {Subject, Observable} from 'rxjs'
