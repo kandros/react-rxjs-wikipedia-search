@@ -25,15 +25,6 @@ const Hero = () => (
                     </NavGroup>
                     <NavToggle />
                     <NavGroup align="right" isMenu>
-                        <NavItem isActive style={{fontSize: 18}}>
-                            Home
-                        </NavItem>
-                        <NavItem style={{fontSize: 18}}>
-                            Examples
-                        </NavItem>
-                        <NavItem style={{fontSize: 18}}>
-                            Documentation
-                        </NavItem>
                         <NavItem>
                             <a href="https://github.com/kandros/react-rxjs-wikipedia-search"
                                target="_blank" style={{textDecoration: 'none'}}>
