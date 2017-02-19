@@ -7,7 +7,7 @@ const BASE_URL = 'https://en.wikipedia.org/w/api.php?action=query&origin=*&forma
 type InputEvent = {target: HTMLInputElement} & Event
 import {Button} from 're-bulma';
 
-export type ResultItem = {title: string, size: number, wordCount: number}
+export type ResultItem = {title: string, size: number, wordCount: number, snippet: string}
 type State = {
     alreadyTouched: boolean,
     text: string,
@@ -61,6 +61,7 @@ class WikipediaSearch extends Component {
 
         return Observable
             .fromPromise(searchResult)
+            .do(result => console.log(result.data))
             .map(results => results.data.query.search)
     }
 

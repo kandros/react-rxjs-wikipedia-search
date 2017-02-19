@@ -6,6 +6,7 @@ import {
     PanelBlock,
     Container
 } from 're-bulma'
+import Detail from './Detail'
 import type {ResultItem} from './WikipediaSearch'
 
 type Props = {
@@ -52,7 +53,10 @@ class ResultList extends Component {
                             onClick={() => this._handleItemClick(index)}
                             className={["ResultList__Item", this._isOpen(index)].join(' ')}
                             key={this._getRelativelyUniqueId(item)}>
-                            {item.title}
+                            {this._isOpen(index)
+                                ? <Detail title={item.title} detail={item.snippet}/>
+                                : item.title
+                            }
                         </PanelBlock>
                     ))}
                 </Panel>
